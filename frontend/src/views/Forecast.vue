@@ -9,7 +9,7 @@
                     <div class="col-6" style="margin-top:20vh">
                         
                         <table class=" table table-bordered ">
-                            <div><h4>Tomorrow</h4></div>
+                            <div><h4>Today</h4></div>
                             <tr>
                                 <td scope="col">Location</td>
                                 <td>{{location}} </td>
@@ -33,7 +33,7 @@
                         </table>
 
                         <table class=" table table-bordered ">
-                            <div><h4>Today</h4></div>
+                            <div><h4>Tomorrow</h4></div>
                             <tr>
                                 <td scope="col">Location</td>
                                 <td>{{location}} </td>
