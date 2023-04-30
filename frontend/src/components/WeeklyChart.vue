@@ -4,6 +4,14 @@
         <div class="row">
           <div class="col-6">
             <div style="display:flex; justify-content:flex-start">
+              <h4>DAILY DATA</h4>
+            </div>
+            <div >
+              <canvas  ref="chart3" width="500"  height="400"></canvas>
+            </div>
+          </div>
+          <div class="col-6">
+            <div style="display:flex; justify-content:flex-start">
               <h4>WEEKLY DATA</h4>
             </div>
               
@@ -11,23 +19,17 @@
                 <canvas  ref="chart1" width="500"  height="400"></canvas>
               </div>
           </div>
+          
+         
+         
+        </div>
+        <div class="row">
           <div class="col-6">
             <div style="display:flex; justify-content:flex-start">
               <h4>MONTHLY DATA</h4>
             </div>
             <div >
               <canvas  ref="chart2" width="500"  height="400"></canvas>
-            </div>
-          </div>
-         
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <div style="display:flex; justify-content:flex-start">
-              <h4>HOURLY DATA</h4>
-            </div>
-            <div >
-              <canvas  ref="chart3" width="500"  height="400"></canvas>
             </div>
           </div>
           <div class="col-6">
