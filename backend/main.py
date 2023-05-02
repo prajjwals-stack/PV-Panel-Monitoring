@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from generator import generate
-from models.schema import UserSchema
+from models.schema import UserSchema,biding
 from fastapi.encoders import jsonable_encoder
 import uuid 
 from auth import auth_obj
@@ -52,3 +52,7 @@ async def dailyData(token:str=Depends(oauth2_scheme)):
             file_data = json.load(file)
             return file_data
     return "error agaya"
+
+@app.post('/biding')
+async def binding(data:biding=Body(),token:str=Depends(oauth2_scheme)):
+    return False

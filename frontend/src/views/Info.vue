@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-6 container1">
                     <h3>Enter Device Info</h3>
-                    <div class="form" style="overflow-y:scroll">
+                    <div class="form" style="height:80vh; overflow-y:scroll">
                         <table class="table table-bordered">
                             <tbody>
                                 <tr>
