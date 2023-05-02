@@ -4,7 +4,7 @@
         
         <div class="bar">
             <p style="color:black"><a href="/" style="color:black; text-decoration:none;">Home</a></p>
-            <p style="color:black"><a href="/" style="color:black; text-decoration:none;">Device</a></p>
+            <p style="color:black"><a href="/bidding" style="color:black; text-decoration:none;">Bidding</a></p>
             <p style="color:black"><a href="/Forecast" style="color:black; text-decoration:none;">Forecast</a></p>
             <p style="color:black"><a href="/Info" style="color:black; text-decoration:none;">Info</a></p>
 

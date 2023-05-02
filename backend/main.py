@@ -3,11 +3,16 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from generator import generate
-from models.schema import UserSchema,biding
+from models.schema import UserSchema,biding,Create_bid
 from fastapi.encoders import jsonable_encoder
 import uuid 
 from auth import auth_obj
 import json
+from settings.dbconnection import db
+
+
+USER_COLLECTION='auth collection'
+
 app=FastAPI();
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -55,4 +60,72 @@ async def dailyData(token:str=Depends(oauth2_scheme)):
 
 @app.post('/biding')
 async def binding(data:biding=Body(),token:str=Depends(oauth2_scheme)):
-    return False
+    uuid=auth_obj.get_current_user(token)
+    print(uuid)
+    user=db["auth collection"].find_one(
+       {
+        'uuid':str(uuid)
+        }, 
+        {
+        '_id':0
+        }
+        )
+    username=user["username"]
+
+    db["biding_collection"].insert_one({
+        'energy':data.Energy,
+        "time":data.Expiry_Time,
+        "uuid":uuid,
+        "user":username,
+        "bids":[]
+    })
+    return username
+
+@app.get('/all_bids')
+async def all_bids(token:str=Depends(oauth2_scheme)):
+    uuid=auth_obj.get_current_user(token)
+    bids= db["biding_collection"].find_one(
+        {
+            "uuid":uuid,
+        },
+        {
+            '_id':0
+        }
+    )
+    new_bids=db["biding_collection"].find(
+        {},
+        {
+            '_id':0
+        }
+    )
+
+    return list(new_bids)
+
+@app.post('/create_bid')
+async def create_bid(data:Create_bid=Body(),token:str=Depends(oauth2_scheme)):
+    uuid=auth_obj.get_current_user(token)
+    print(data.Pricing)
+    print(data.Bid_creator_id)
+    original_id=db["biding_collection"].find_one({
+        'uuid':data.Bid_creator_id
+    },
+    {
+        '_id':0
+    })
+    bids=original_id['bids']
+    bids.append({
+        'bidder_id':uuid,
+        'pricing_rate':data.Pricing,
+        'bidder__name':"test"
+
+    })
+    newdata={
+        'bids':bids
+    }
+    db["biding_collection"].update_one({
+        'uuid':data.Bid_creator_id
+    }, {
+        "$set":newdata
+    })
+    
+    return bids

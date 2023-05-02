@@ -7,5 +7,9 @@ class UserSchema(BaseModel):
 
 
 class biding(BaseModel):
-    Energy:str=Field(...)
+    Energy:int=Field(...)
     Expiry_Time:str=Field(...)
+
+class Create_bid(BaseModel):
+    Pricing:int=Field(...)
+    Bid_creator_id:str=Field(...)
