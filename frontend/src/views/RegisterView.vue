@@ -59,7 +59,7 @@
                                 <div class="login-div">
                                     <p class="text-center mb-0 pb-0">Already have an account?</p>
                                     <p class="forgot-password text-center">
-                                        <router-link to="/login">Log In</router-link>
+                                        <router-link to="/">Log In</router-link>
                                     </p>
                             </div>
 

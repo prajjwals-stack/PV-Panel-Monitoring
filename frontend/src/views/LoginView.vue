@@ -124,7 +124,7 @@ export default{
                     (res)=>{
                         
                         localStorage.setItem('token',res.data["access_token"]);
-                        window.location = "/";
+                        window.location = "/home";
 
                        }
                 ).catch(
