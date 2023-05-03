@@ -8,8 +8,6 @@
         </div>
         <div v-if="state.framedata==456" class="alert alert-danger error" role="alert">
         {{state.error}}
-        <button  v-on:click="logout" class="btn btn-success btn-sm" >Logout from other Tabs
-        </button>
         </div>
 
     </div>
@@ -137,12 +135,7 @@ export default{
                 )
                
         },
-        async logout(){
-            // alert("inside logout")
-            await axios.post('user/logout',{ username: this.state.username})
-            localStorage.setItem('token',null)
-            window.location = "/";
-        }
+        
         
          },
         

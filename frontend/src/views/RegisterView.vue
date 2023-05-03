@@ -117,16 +117,6 @@ export default{
         return { state, v$ };
     
     },
-    // data(){
-    //     return{
-    //         email:"",
-    //         username:"",
-    //         number:"",
-    //         password:"",
-    //         confirm:""
-
-    //     }
-    // },
     methods: {
         async submitHandler(){
             const isFormCorrect =await this.v$.$validate()
@@ -142,7 +132,7 @@ export default{
                 this.state.framedata=err.response.status;
                 this.state.error=err.response.data.detail;
                 console.log(this.state.framedata)
-                // alert(err.response.data.detail)
+              
                 
             })
                 

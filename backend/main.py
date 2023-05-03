@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from generator import generate
-from models.schema import UserSchema,biding,Create_bid
+from models.schema import UserSchema,biding,Create_bid,accept_bid
 from fastapi.encoders import jsonable_encoder
 import uuid 
 from auth import auth_obj
@@ -74,7 +74,6 @@ async def binding(data:biding=Body(),token:str=Depends(oauth2_scheme)):
 
     db["biding_collection"].insert_one({
         'energy':data.Energy,
-        "time":data.Expiry_Time,
         "uuid":uuid,
         "user":username,
         "bids":[]
@@ -112,11 +111,17 @@ async def create_bid(data:Create_bid=Body(),token:str=Depends(oauth2_scheme)):
     {
         '_id':0
     })
+    user=db['auth collection'].find_one({
+        'uuid':uuid
+    },
+    {
+        '_id':0
+    })
     bids=original_id['bids']
     bids.append({
         'bidder_id':uuid,
         'pricing_rate':data.Pricing,
-        'bidder__name':"test"
+        'bidder__name':user['username']
 
     })
     newdata={
@@ -129,3 +134,12 @@ async def create_bid(data:Create_bid=Body(),token:str=Depends(oauth2_scheme)):
     })
     
     return bids
+
+@app.post('/accept')
+async def accept(data:accept_bid=Body(),token:str=Depends(oauth2_scheme)):
+    uuid=auth_obj.get_current_user(token)
+    db['biding_collection'].delete_one({
+        'uuid':uuid
+    })
+
+    return data
