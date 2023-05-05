@@ -20,3 +20,8 @@ class accept_bid(BaseModel):
     Energy:str=Field(...)
     Bidder:str=Field(...)
     price:str=Field(...)
+
+class User_Solar_info(BaseModel):
+    total_watts:int=Field(...)
+    terrif_cost:int=Field(...)
+    operational_hours:int=Field(...)

@@ -127,7 +127,7 @@ export default{
                 password:this.state.password,
             })
             .then(()=>{
-                this.$router.push('/info')
+                this.$router.push('/')
             }).catch((err)=>{
                 this.state.framedata=err.response.status;
                 this.state.error=err.response.data.detail;

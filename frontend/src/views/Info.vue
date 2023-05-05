@@ -1,19 +1,30 @@
 <template>
-    <div style="overflow-y:hidden">
+    <div style="height:100vh; overflow-y:hidden">
         <HeaderComp/>
-
+        
         <div class="container">
+            <div>
+                <button v-if="!Output" class="btn btn-outline-success" >Update Database</button>
+                <button v-if="Output" class="btn btn-outline-success" v-on:click="Update">Update Database</button>
+            </div>
+            
             <div class="row">
                 <div class="col-6 container1">
-                    <h3>Enter Device Info</h3>
-                    <div class="form" style="height:80vh; overflow-y:scroll">
-                        <table class="table table-bordered">
-                            <tbody>
+                    <div class="form" style="height:80vh; ">
+                        <table class="table table-bordered" >
+                            <thead style="background:rgb(34, 138, 235); color:white">
+                                <tr>
+                                    <td>Select</td>
+                                    <td>Appliances</td>
+                                    <td>Options</td>
+                                </tr>
+                            </thead>
+                            <tbody >
                                 <tr>
                                     <th scope="row"><input type="checkbox" v-model="Tv"></th>
                                     <td> Television</td>
                                     <td v-if="Tv">
-                                        <div class="input-group mb-3" style="display:flex; align-items:baseline">
+                                        <div class="input-group mb-0.5" style="display:flex; align-items:baseline">
                                             <p style="margin-right:10px;">Number of TV</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="tv_number">
                                                 <option value="1">1</option>
@@ -21,7 +32,7 @@
                                                 <option value="3">3</option>
                                             </select>
                                             </div>
-                                            <div class="input-group mb-3" style="display:flex; align-items:baseline">
+                                            <div class="input-group mb-0.5" style="display:flex; align-items:baseline">
                                                 <p style="margin-right:10px;">Size of TV</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="tv_size">
                                                
@@ -38,7 +49,7 @@
                                     <th scope="row"><input type="checkbox" v-model="ac"></th>
                                     <td>Air Conditioners</td>
                                     <td v-if="ac">
-                                        <div class="input-group mb-3"  style="display:flex; align-items:baseline">
+                                        <div class="input-group mb-0.5"  style="display:flex; align-items:baseline">
                                             <p style="margin-right:10px;" >Number of AC</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="ac_number">
                                                 
@@ -47,7 +58,7 @@
                                                 <option value="3">3</option>
                                             </select>
                                             </div>
-                                            <div class="input-group mb-3" style="display:flex; align-items:baseline">
+                                            <div class="input-group mb-0.5" style="display:flex; align-items:baseline">
                                                 <p style="margin-right:10px;">Size of AC</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="ac_size">
                                                
@@ -62,7 +73,7 @@
                                     <th scope="row"> <input type="checkbox" v-model="WashingMachine"></th>
                                     <td>Washing Machines</td>
                                     <td v-if="WashingMachine">
-                                        <div class="input-group mb-3"  style="display:flex; align-items:baseline">
+                                        <div class="input-group mb-0.5"  style="display:flex; align-items:baseline">
                                             <p style="margin-right:10px;" >Number</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="wm_number">
                                                 
@@ -71,7 +82,7 @@
                                                 <option value="3">3</option>
                                             </select>
                                             </div>
-                                            <div class="input-group mb-3" style="display:flex; align-items:baseline">
+                                            <div class="input-group mb-0.5" style="display:flex; align-items:baseline">
                                                 <p style="margin-right:10px;">Type</p>
                                             <select class="custom-select" id="inputGroupSelect03" v-model="wm_size">
                                                
@@ -91,7 +102,7 @@
                                     <th scope="row"> <input type="checkbox" v-model="fridge"></th>
                                     <td>Referigerator</td>
                                     <td v-if="fridge">
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-0.5">
                                             <select class="custom-select" id="inputGroupSelect03" v-model="fridge_number">
                                                 <option selected > Choose...</option>
                                                 <option value="1">1</option>
@@ -126,12 +137,12 @@
 
 
                 </div>
-                <div class="col-6">
+                <div class="col-6" style="margin-top:20px">
                   
                     <div v-if="Output">
-                        <h3>OUTPUT</h3>
+                        
                         <table class="table table-bordered">
-                            <thead>
+                            <thead style="background:rgb(34, 138, 235); color:white">
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Device</th>
@@ -180,14 +191,14 @@
                         <p>Since your total maximum usage is around <b>{{ total }}</b>  so we would suggest you a ongrid solar panel of <b>{{ suggestion }}</b>  
                             watts.The total initial upfront cost would be around  <b>{{price}}</b>.
                         </p>
-                        <table>
+                        <table class="table">
                             <tr>
                                 <th>Monthly Unit Consumed =</th>
-                                <th>{{ (total/1000)*operational_hours*30 }} units</th>
+                                <th>{{(total/1000)*operational_hours*30 }} units</th>
                             </tr>
                             <tr>
                                 <th>Monthly Electricity Bill = </th>
-                                <th>{{ (total/1000)*operational_hours*30*terrif_cost }} rupees</th>
+                                <th>{{(total/1000)*operational_hours*30*terrif_cost }} rupees</th>
                             </tr>
                         </table>
                         <p> Total money saved in 5 years is {{ (total/1000)*operational_hours*30*terrif_cost*12*5 }}
@@ -208,7 +219,7 @@
 <script>
 import HeaderComp from "../components/HeaderComp.vue"
 import FooterComp from "../components/FooterComp.vue"
-
+import axios from 'axios'
 
 
 export default {
@@ -246,6 +257,18 @@ export default {
     }
 },
     methods: {
+         async Update(){
+            await axios.post('update_db',{
+                "total_watts":this.total,
+                "terrif_cost":this.terrif_cost,
+                "operational_hours":this.operational_hours
+            })
+            .then(res=>{
+                console.log(res)
+            })
+            .catch(err=>console.log(err))
+
+            },
          submithandler(){
             console.log(this.name,  this.Tv, this.ac, this.fridge, this.WashingMachine);
             console.log(this.tv_number,  this.ac_size, this.wm_size, this.fridge_number,this.tv_size);
@@ -300,6 +323,7 @@ export default {
             }
 
         }
+        
     }
 
   

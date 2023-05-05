@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from fastapi.middleware.cors import CORSMiddleware
 import random
 from generator import generate
-from models.schema import UserSchema,biding,Create_bid,accept_bid
+from models.schema import UserSchema,biding,Create_bid,accept_bid,User_Solar_info
 from fastapi.encoders import jsonable_encoder
 import uuid 
 from auth import auth_obj
@@ -143,3 +143,52 @@ async def accept(data:accept_bid=Body(),token:str=Depends(oauth2_scheme)):
     })
 
     return data
+
+@app.get('/get_id')
+async def get_id(token:str=Depends(oauth2_scheme)):
+    return auth_obj.get_current_user(token)
+
+@app.post('/update_db')
+async def update_db(data:User_Solar_info=Body(),token:str=Depends(oauth2_scheme)):
+    uuid=auth_obj.get_current_user(token)
+    x=db["solar_info"].find_one({
+        "uuid":uuid,
+    },{
+        '_id':0
+    })
+    if(x):
+        newdata={
+        "uuid":uuid,
+        "Total_watts":data.total_watts,
+        "terrif_cost":data.terrif_cost,
+        "operational_hours":data.operational_hours,
+
+        }
+        db['solar_info'].update_one({
+           "uuid":uuid, 
+        },{
+        "$set":newdata
+    })
+    else:
+        db["solar_info"].insert_one({
+            "uuid":uuid,
+            "Total_watts":data.total_watts,
+            "terrif_cost":data.terrif_cost,
+            "operational_hours":data.operational_hours,
+
+        })
+    return True
+
+@app.get('/get_solar_data')
+async def get_solar_data(token:str=Depends(oauth2_scheme)):
+    uuid=auth_obj.get_current_user(token)
+    x=db["solar_info"].find_one({
+        "uuid":uuid,
+    },{
+        '_id':0
+    })
+    return {
+        "total_watts":x['Total_watts'],
+        "terrif_cost":x['terrif_cost'],
+        "operational_hours":x['operational_hours'],
+    }

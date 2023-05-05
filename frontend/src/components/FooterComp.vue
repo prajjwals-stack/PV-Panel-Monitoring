@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <p class="Footer"><span class="copyright_text" >Copyright</span> <span class="copyright_text"> Prajjwal soni</span></p>
+        <p class="Footer"><span class="copyright_text" style="color:white; text-decoration:none">Copyright @ Prajjwal Soni</span> </p>
     </footer>
 </template>
 
@@ -17,10 +17,11 @@ footer{
     justify-content:center;
     align-items:baseline;
     border:1px solid  rgb(115, 137, 152);
+    background: black;
     
 }
 footer .Footer  img{
-    color:black;
+    color:white;
     height:25px;
 
 }
@@ -28,7 +29,7 @@ footer .Footer a{
     text-decoration: none;
 }
 footer .Footer a .copyright_text{
-    color:black;
+    color:white;
     
 }
 

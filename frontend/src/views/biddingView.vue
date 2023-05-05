@@ -3,44 +3,49 @@
         <HeaderComp />
         <div style="margin-top:10vh; display:flex; justify-content:flex-start; flex-direction:column">
 
-        <div style="display:flex; justify-content:flex-start; flex-direction:row"><input type="Number" v-model="Units_required" placeholder="Enter amount of energy required(units)"><span><button v-on:click="Open_bid">Open Bid</button></span></div>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <td>Bid Creator</td>
-                    <td>Required Units</td>
-                    <td>Sellers/Bidders</td>
+        <div style="display:flex; justify-content:flex-start; flex-direction:row"><input style="border:1px solid black; border-radius:5px; margin:0 5px 0 40px" type="Number" v-model="Units_required" placeholder="Enter amount of energy required(units)"><span><button class="btn btn-outline-success" v-on:click="Open_bid">Open Bid</button></span></div>
+        
+        <div style="margin:40px; border-radius:10px">
+            <table class="table table-bordered">
+                <thead style="background:rgb(34, 138, 235); color:white">
+                    <tr>
+                        <td>BID CREATOR</td>
+                        <td>REQUIRED UNITS</td>
+                        <td>SELLERS/BIDDER</td>
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="x in list" :key="x">
-                    <td>{{ x["user"] }}</td>
-                    <td>{{ x["energy"] }} 
-                        <p><input type="number" v-model="Price_per_unit" placeholder="Pricing per units"><button v-on:click="CreateBid(x['uuid'])">Create Bid</button></p>
-                    </td>
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <td>
-                                    Bidder Name
-                                </td>
-                                <td>Pricing</td>
-                                <td>Accept</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="y in x['bids']" :key="y">
-                                <td>{{ y["bidder__name"] }}</td>
-                                <td>{{ y["pricing_rate"] }}</td>
-                                <td> <button v-on:click="accept(x['uuid'],x['user'],x['energy'],y['bidder__name'],y['pricing_rate'] )">Accept</button></td>
-                            </tr>
-                        </tbody>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="x in list" :key="x">
+                        <td>{{ x["user"].toUpperCase() }}</td>
+                        <td>{{ x["energy"] }} UNITS
+                            <p v-if="Id!==x['uuid']"><input type="number" style="border:1px solid black; border-radius:5px; margin:0 5px 0 5px" v-model="Price_per_unit" placeholder="Pricing per units"><button class="btn btn-outline-success" v-on:click="CreateBid(x['uuid'])">Create Bid</button></p>
+                        </td>
+                        <table class="table">
+                            <thead >
+                                <tr>
+                                    <td>
+                                        BIDDER NAME
+                                    </td>
+                                    <td>PRICING</td>
+                                    <td>ACCEPT</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="y in x['bids']" :key="y">
+                                    <td>{{ y["bidder__name"] }}</td>
+                                    <td>{{ y["pricing_rate"] }}</td>
+                                    <td v-if="Id==x['uuid']"> <button class="btn btn-outline-success" v-on:click="accept(x['uuid'],x['user'],x['energy'],y['bidder__name'],y['pricing_rate'] )">Accept</button></td>
+                                </tr>
+                            </tbody>
 
-                    </table>
-                </tr>
-            </tbody>
-        </table>
+                        </table>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        
        
     </div>
 
@@ -65,10 +70,12 @@ export default{
             list:undefined,
             Price_per_unit:undefined,
             Units_required:undefined,
+            Id:undefined,
         }
     },
     mounted(){
         this.bids()
+        this.get_id()
     },
     methods:{
         async bids(){
@@ -119,6 +126,11 @@ export default{
                 
             .catch(err=>{
                 console.log(err)})
+        },
+        async get_id(){
+            await axios.get('get_id')
+            .then(res=>{this.Id = res.data})
+            .catch(err=>{console.log(err)})
         }
 
     }
